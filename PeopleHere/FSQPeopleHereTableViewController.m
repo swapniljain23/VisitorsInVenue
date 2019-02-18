@@ -9,7 +9,7 @@
 #import "FSQPeopleHereTableViewController.h"
 #import "ios_interview-Swift.h"
 
-@interface FSQPeopleHereTableViewController (){
+@interface FSQPeopleHereTableViewController () {
     VenueModel *mVenuleMode;
 }
 
@@ -28,7 +28,10 @@
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"people-here" ofType:@"json"];
     NSData *jsonData = [NSData dataWithContentsOfFile:path];
-    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+    NSDictionary *jsonDictionary =
+        [NSJSONSerialization JSONObjectWithData:jsonData
+                                        options:NSJSONReadingMutableContainers
+                                          error:nil];
     mVenuleMode = [[VenueModel alloc] initWithVenueDict:jsonDictionary[@"venue"]];
 }
 
@@ -47,21 +50,33 @@
     return mVenuleMode.visitors.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
+                                                            forIndexPath:indexPath];
     
     VisitorModel *model = [mVenuleMode.visitors objectAtIndex:indexPath.row];
     
     // Configure the cell...
     NSString *visitorName = [NSString stringWithFormat:@"%@",model.visitorName];
-    NSString *timeInterval = [NSString stringWithFormat:@"%@ - %@", [model time24HrDisplayFormatWithTimeInSeconds:model.arriveTime], [model time24HrDisplayFormatWithTimeInSeconds:model.leaveTime]];
+    NSString *timeInterval = [NSString stringWithFormat:@"%@ - %@",
+                              [model time24HrDisplayFormatWithTimeInSeconds:model.arriveTime],
+                              [model time24HrDisplayFormatWithTimeInSeconds:model.leaveTime]];
     
-    if ([model isNoVisitor]){
-        cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:visitorName attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
-        cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:timeInterval attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
-    }else{
-        cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:visitorName attributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
-        cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:timeInterval attributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
+    if ([model isNoVisitor]) {
+        cell.textLabel.attributedText =
+            [[NSAttributedString alloc] initWithString:visitorName
+                attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
+        cell.detailTextLabel.attributedText =
+            [[NSAttributedString alloc] initWithString:timeInterval
+                attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
+    } else {
+        cell.textLabel.attributedText =
+            [[NSAttributedString alloc] initWithString:visitorName
+                attributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
+        cell.detailTextLabel.attributedText =
+            [[NSAttributedString alloc] initWithString:timeInterval
+                attributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
     }
     return cell;
 }

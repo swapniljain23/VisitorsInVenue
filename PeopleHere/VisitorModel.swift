@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VisitorModel: NSObject{
+class VisitorModel: NSObject {
     var visitorId: String
     var visitorName: String
     var arriveTime: Int
@@ -22,7 +22,7 @@ class VisitorModel: NSObject{
     }
     
     public func time24HrDisplayFormat(timeInSeconds: Int) -> String? {
-        if timeInSeconds <= 0{
+        if timeInSeconds <= 0 {
             return nil
         }
         let hour = (timeInSeconds / (60*60)) % 24 // Divide by 24, just incase seconds overflow (> 24*3600)
@@ -31,7 +31,7 @@ class VisitorModel: NSObject{
         return "\(hour):\(minText)"
     }
     
-    func descriptioin()->String{
+    func descriptioin()->String {
         return "\(visitorId)-\(visitorName):\(arriveTime)-\(leaveTime)"
     }
 }
